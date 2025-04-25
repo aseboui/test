@@ -1,0 +1,37 @@
+kind: AIchorManifest
+apiVersion: 0.2.2
+
+builder:
+  image: image
+  dockerfile: ./dockerfiles/Dockerfile
+  context: .
+
+spec:
+  operator: tf
+  image: image
+  command: "python3 -u main.py --operator=tf --sleep=300 --tb-write=True"   
+  #command: >
+  #  bash src/test_pvc.sh
+
+  tensorboard:
+    enabled: true
+  #storage:
+  #  attachExistingPVCs:
+  #    - name: ay-gcp-proje-4f4cac5eb91440b7-ay-test-e189eb7f95f14fcb
+  #      mountPoint: /mnt/ay-gcp-proje-4f4cac5eb91440b7-ay-test-e189eb7f95f14fcb
+
+  tensorboard:
+    enabled: true
+
+  types:
+    Worker:
+      count: 1
+      resources:
+        cpus: 1
+        ramRatio: 2
+        shmSizeGB: 0
+        accelerators: # optional
+          gpu:
+            count: 0
+            type: gpu
+            product: nvidia-tesla-t4
